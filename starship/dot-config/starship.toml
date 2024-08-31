@@ -1,0 +1,109 @@
+# # Get editor completions based on the config schema
+# "$schema" = 'https://starship.rs/config-schema.json'
+#
+# # Inserts a blank line between shell prompts
+# add_newline = true
+# # format = '''
+# # [┌───────────────────>](bold green)
+# # [│](bold green)$directory$rust$package
+# # [└─>](bold green) '''
+# format = '$all$directory$character'
+#
+#
+# # Replace the '❯' symbol in the prompt with '➜'
+# [character] # The name of the module we are configuring is 'character'
+# #success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+#
+# # Disable the package module, hiding it from the prompt completely
+# [package]
+# disabled = true
+
+format = '''$username$hostname$directory
+$character
+'''
+right_format = '$all $status $cmd_duration  $time'
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Disable the blank line at the start of the prompt
+add_newline = true
+
+# A continuation prompt that displays two filled in arrows
+continuation_prompt = '[▶▶ ](bold yellow)'
+
+# Set 'foo' as custom color palette
+# palette = 'foo'
+
+# Define custom colors
+# [palettes.foo]
+# Overwrite existing color
+# blue = '21'
+# Define new color
+# mustard = '#af8700'
+
+[username]
+style_user = 'green bold'
+style_root = 'red bold'
+format = '[$user]($style) '
+disabled = false
+show_always = false
+
+[hostname]
+style = 'green bold'
+ssh_only = true
+#detect_env_vars = ['!TMUX', 'SSH_CONNECTION']
+format = '@ [$ssh_symbol$hostname]($style) '
+disabled = false
+
+[time]
+disabled = false
+format = '🕙[\[ $time \]]($style) '
+time_format = '%T'
+utc_time_offset = '+8'
+use_12hr = true
+#time_range = '00:00:00-24:00:00'
+
+[cmd_duration]
+min_time = 1_000
+show_milliseconds = true
+format = '[$duration](bold yellow)'
+
+[conda]
+format = '[$symbol$environment](dimmed green) '
+ignore_base = false
+
+[directory]
+truncation_length = 8
+truncation_symbol = '…/'
+
+[docker_context]
+format = 'via [🐋 $context](blue bold)'
+
+[git_branch]
+symbol = ' '
+truncation_length = 4
+truncation_symbol = '…'
+style = 'bold yellow'
+#ignore_branches = ['master', 'main']
+
+[jobs]
+symbol = '* '
+number_threshold = 2
+symbol_threshold = 1
+style = 'bold yellow'
+
+[status]
+style = 'fg:red'
+symbol = 'X'
+success_symbol = ''
+format = '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
+map_symbol = true
+disabled = false
+
+[sudo]
+style = 'bold green'
+symbol = 'admin'
+disabled = false
+
+

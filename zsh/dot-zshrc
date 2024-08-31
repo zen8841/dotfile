@@ -1,0 +1,137 @@
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt autocd nomatch HIST_IGNORE_ALL_DUPS NO_HUP completealiases
+unsetopt beep extendedglob notify
+bindkey -e
+zstyle :compinstall filename '/home/zen/.zshrc'
+zstyle ':completion:*' menu select
+zstyle ':completion:*' rehash true
+stty -ixon
+
+## zinit
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+## starship theme
+zinit ice from"gh-r" sbin"starship" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit load starship/starship
+
+## load before terminal ready
+zinit for \
+      https://github.com/zen8841/zsh-config/blob/master/keybind.zsh
+#      zsh-users/zsh-history-substring-search
+
+## setting for fzf
+zinit lucid wait for \
+      https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh \
+      https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
+
+## wait, load after terminal ready
+zinit lucid wait for \
+      atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+      zdharma-continuum/fast-syntax-highlighting \
+      atload"zicompinit; zicdreplay" blockf zsh-users/zsh-completions \
+      atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions \
+      MichaelAquilina/zsh-auto-notify \
+      OMZL::history.zsh \
+      OMZP::command-not-found/command-not-found.plugin.zsh \
+      OMZP::sudo/sudo.plugin.zsh \
+      zdharma-continuum/history-search-multi-word \
+      https://github.com/zen8841/zsh-config/blob/master/reset_broken_terminal.zsh
+#      MichaelAquilina/zsh-you-should-use \
+#      brymck/print-alias \
+#      https://github.com/zen8841/zsh-config/blob/master/dirstack.zsh
+
+## install from github
+# zinit lucid wait from"gh-r" for \
+#       sbin"exa" ogham/exa \
+#       sbin"zoxide" ajeetdsouza/zoxide \
+#       sbin"fzf" junegunn/fzf \
+#       sbin"cheat-linux-amd64" cheat/cheat
+
+## load completion
+#zinit lucid wait as"completion" for \
+#       https://github.com/ogham/exa/blob/master/completions/zsh/_exa \
+#       https://github.com/ajeetdsouza/zoxide/blob/main/contrib/completions/_zoxide
+
+## zoxide
+autoload -Uz compinit
+compinit
+eval "$(zoxide init zsh)"
+zinit cdreplay -q
+
+## load alias
+[[ -r $HOME/.alias.sh ]] && zinit ice lucid wait && zinit snippet $HOME/.alias.sh
+
+## change cursor
+echo '\e[5 q'
+
+## set environment variable
+HIST_STAMPS="yyyy-mm-dd"
+
+## setting for zsh-auto-notify
+export AUTO_NOTIFY_THRESHOLD=60
+AUTO_NOTIFY_IGNORE+=("fixflash.sh" "nano" "nvim" "vim" "yay" "ssh" "mpv" "syncthing" "sudo" "tmux" "mtr" "bash" "hexo" "btm" "ping" "htop" "docker" "wstunnel")
+
+## setting for history-search-multi-word
+zstyle :plugin:history-search-multi-word reset-prompt-protect 1
+zstyle ":history-search-multi-word" highlight-color "fg=yellow,bold"
+zstyle ":history-search-multi-word" page-size "20"
+zstyle ":plugin:history-search-multi-word" active "underline,bold,fg=blue"
+zstyle ":plugin:history-search-multi-word" check-paths "yes"
+zstyle ":plugin:history-search-multi-word" clear-on-cancel "no"
+zstyle ":plugin:history-search-multi-word" synhl "yes"
+typeset -gA HSMW_HIGHLIGHT_STYLES
+HSMW_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
+HSMW_HIGHLIGHT_STYLES[double-hyphen-option]="fg=yellow"
+HSMW_HIGHLIGHT_STYLES[single-hyphen-option]="fg=yellow"
+HSMW_HIGHLIGHT_STYLES[commandseparator]="fg=white"
+
+## setting for fzf
+export FZF_DEFAULT_COMMAND="find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+  -o -path './Games' -prune \
+  -o -type f -print \
+  -o -type d -print \
+  -o -type l -print 2> /dev/null | cut -b3-"
+export FZF_CTRL_T_COMMAND="find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+  -o -path './Games' -prune \
+  -o -type f -print \
+  -o -type d -print \
+  -o -type l -print   2> /dev/null | cut -b3-"
+export FZF_ALT_C_COMMAND="find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+  -o -path './Games' -prune \
+  -o -type d -print 2> /dev/null | cut -b3-"
+_fzf_compgen_path() {
+  echo "$1"
+  command find -L "$1" \
+    -name .git -prune -o -name .hg -prune -o -name .svn -prune \
+    -o -path './Games' -prune -o -path './.*' -prune \
+    -o \( -type d -o -type f -o -type l \) \
+    -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+}
+_fzf_compgen_dir() {
+  command find -L "$1" \
+    -name .git -prune -o -name .hg -prune -o -name .svn -prune \
+    -o -path './Games' -prune -o -path './.*' -prune \
+    -o -type d -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+}
