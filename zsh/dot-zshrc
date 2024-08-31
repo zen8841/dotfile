@@ -76,7 +76,7 @@ zinit lucid wait for \
 ## zoxide
 autoload -Uz compinit
 compinit
-eval "$(zoxide init zsh)"
+eval "$(zoxide init --no-aliases zsh)"
 zinit cdreplay -q
 
 ## load alias
