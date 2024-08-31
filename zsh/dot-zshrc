@@ -52,7 +52,6 @@ zinit lucid wait for \
       zdharma-continuum/fast-syntax-highlighting \
       atload"zicompinit; zicdreplay" blockf zsh-users/zsh-completions \
       atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions \
-      MichaelAquilina/zsh-auto-notify \
       OMZL::history.zsh \
       OMZP::command-not-found/command-not-found.plugin.zsh \
       OMZP::sudo/sudo.plugin.zsh \
@@ -88,10 +87,6 @@ echo '\e[5 q'
 
 ## set environment variable
 HIST_STAMPS="yyyy-mm-dd"
-
-## setting for zsh-auto-notify
-export AUTO_NOTIFY_THRESHOLD=60
-AUTO_NOTIFY_IGNORE+=("fixflash.sh" "nano" "nvim" "vim" "yay" "ssh" "mpv" "syncthing" "sudo" "tmux" "mtr" "bash" "hexo" "btm" "ping" "htop" "docker" "wstunnel")
 
 ## setting for history-search-multi-word
 zstyle :plugin:history-search-multi-word reset-prompt-protect 1

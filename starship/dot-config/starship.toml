@@ -53,7 +53,7 @@ show_always = false
 style = 'green bold'
 ssh_only = true
 #detect_env_vars = ['!TMUX', 'SSH_CONNECTION']
-format = '@ [$ssh_symbol$hostname]($style) '
+format = '@ [$hostname $ssh_symbol]($style) '
 disabled = false
 
 [time]
