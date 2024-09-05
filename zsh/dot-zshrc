@@ -7,6 +7,7 @@ bindkey -e
 zstyle :compinstall filename '/home/zen/.zshrc'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
+zstyle ':completion:*:ssh:*' hosts $h
 stty -ixon
 
 ## zinit
