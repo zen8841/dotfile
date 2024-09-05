@@ -84,6 +84,9 @@ zinit cdreplay -q
 ## load alias
 [[ -r $HOME/.alias.sh ]] && zinit ice lucid wait && zinit snippet $HOME/.alias.sh
 
+## docker completion
+source <(docker completion zsh)
+
 ## change cursor
 echo '\e[5 q'
 
