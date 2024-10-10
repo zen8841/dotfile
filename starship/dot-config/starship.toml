@@ -104,6 +104,6 @@ disabled = false
 [sudo]
 style = 'bold green'
 symbol = 'admin'
-disabled = false
+disabled = true
 
 
