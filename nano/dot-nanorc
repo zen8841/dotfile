@@ -328,4 +328,4 @@ set tabstospaces
 #bind ^T cutrestoffile execute
 #bind ^L linter execute
 #bind ^E execute main
-include /usr/share/nano-syntax-highlighting/*.nanorc
+include /usr/share/nano*/*.nanorc
