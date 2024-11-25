@@ -46,6 +46,11 @@ config = {
 	leader = { key="a", mods="CTRL", timeout_milliseconds = 1000 },
 	keys = {
 	{
+		key = 'F',
+		mods = 'CTRL|SHIFT',
+		action = wezterm.action.Search({ CaseInSensitiveString = '' }),
+	},
+	{
 		key = '%',
     	mods = 'LEADER|SHIFT',
     	action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
@@ -74,7 +79,7 @@ config = {
     	key = "RightArrow",
     	mods = "LEADER",
     	action = wezterm.action{ActivatePaneDirection="Right"}
-    }, 
+    },
     {
     	key = "UpArrow",
     	mods = "CTRL|ALT",
