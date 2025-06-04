@@ -55,6 +55,7 @@ ex ()
 }
 
 ## set environment variable
-export EDITOR=nano
+export EDITOR=vim
+command -v nvim > /dev/null 2>&1 && export EDITOR=nvim
 
 [[ -r $HOME/.alias_desktop.sh ]] && source $HOME/.alias_desktop.sh
