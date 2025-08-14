@@ -18,13 +18,16 @@ alias cp="cp -i" # confirm before overwriting something
 alias df='df -h' # human-readable sizes
 alias free='free -m' # show sizes in MB
 alias c='clear'
-alias lneofetch='neofetch | lolcat'
+#alias lneofetch='neofetch | lolcat'
 alias vi=vim
 alias more=less
 alias journalclean='sudo journalctl --vacuum-size=50M'
 
 #alias cat='bat -P'
 #alias bat='bat -P'
+
+# backward kill word not include dir/ and -
+WORDCHARS=${WORDCHARS//[\/-]}
 
 # miniconda3
 #[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh && export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
