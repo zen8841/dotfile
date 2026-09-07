@@ -24,7 +24,7 @@ $character
 right_format = '$all $status $cmd_duration  $time'
 
 # Wait 10 milliseconds for starship to check files under the current directory.
-scan_timeout = 10
+scan_timeout = 100
 
 # Disable the blank line at the start of the prompt
 add_newline = true
